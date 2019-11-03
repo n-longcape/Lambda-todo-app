@@ -29,6 +29,15 @@ describe('Get Task Test', function() {
             callback(null, { Item: [{ id : input.id, title : input.title, content : input.content }] })
         })
 
+
+        aws.mock('DynamoDB.DocumentClient', 'update', function(params, callback) {
+            callback(null, { Item: { id : input.id, title : 'change task title', content : 'change task content' } })
+        })
+
+        aws.mock('DynamoDB.DocumentClient', 'delete', function(params, callback) {
+            callback(null, 'successfully delete item in database')
+        })
+
         taskObj = new tasks()
     })
 
@@ -49,6 +58,30 @@ describe('Get Task Test', function() {
     it('getData', function(done) {
         taskObj.getData(input.id).then(function(res) {
           expect(res.Item).to.deep.equal(input)
+          done()
+        })
+    })
+
+    it('updateData', function(done) {
+        let updateParams = {
+            title: 'change task title',
+            content: 'change task content'
+        }
+
+        const expected = {
+            id: input.id,
+            title: 'change task title',
+            content: 'change task content'
+        }
+        taskObj.updateData(input.id, updateParams).then(function(res) {
+          expect(res.Item).to.deep.equal(expected)
+          done()
+        })
+    })
+
+    it('deleteData', function(done) {
+        taskObj.deleteData(input.id).then(function(res) {
+          expect(res).to.be.equal('successfully delete item in database')
           done()
         })
     })
