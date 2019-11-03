@@ -1,13 +1,13 @@
 'use strict';
 
-const app = require('../../app.js');
+const app = require('../../handlers/create.js');
 const chai = require('chai');
 const expect = chai.expect;
 var event, context;
 
-describe('get Index', function () {
+describe('Test Create', function () {
     it('verifies successful response', async () => {
-        const result = await GetTasks.lambdaHandler(event, context)
+        const result = await app.lambdaHandler(event, context)
 
         expect(result).to.be.an('object');
         expect(result.statusCode).to.equal(200);
@@ -16,7 +16,7 @@ describe('get Index', function () {
         let response = JSON.parse(result.body);
 
         expect(response).to.be.an('object');
-        expect(response.message).to.be.equal("hello world");
+        expect(response.result).to.be.equal("this is create method");
         // expect(response.location).to.be.an("string");
     });
 });

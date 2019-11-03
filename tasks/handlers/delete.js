@@ -1,18 +1,18 @@
 
 let response;
 
-exports.lambdaHandler = async (event, context, callback) => {
+exports.lambdaHandler = async (event, context) => {
     try {
-          response = {
-            "statusCode": 200,
-            "body": JSON.stringify({
-              path: "delete",
-              result: "this is delete method",
-            })
-          }
-      } catch (err) {
-        console.log(err);
-        callback(err, null);
+      response = {
+        "statusCode": 200,
+        "body": JSON.stringify({
+          path: "delete",
+          result: "this is delete method",
+        })
       }
-      callback(null, response)
+    } catch (err) {
+        console.log(err);
+        return err;
+    }
+    return response
 };

@@ -1,32 +1,23 @@
 
 let response;
 
-exports.lambdaHandler = async (event, context, callback) => {
+exports.lambdaHandler = async (event, context) => {
     try {
-        switch (event.httpMethod) {
-          case "GET":
-            response = {
-              "statusCode": 200,
-              "body": JSON.stringify({
-                books: [{
-                  title: "ああ",
-                  content: "category1"
-                }, {
-                  title: "book2",
-                  content: "タスク２"
-                }]
-              })
-            }
-            break;
-          default:
-            response = {
-              "statusCode": 501
-            }
-        }
+          response = {
+            "statusCode": 200,
+            "body": JSON.stringify({
+              books: [{
+                title: "ああ",
+                content: "category1"
+              }, {
+                title: "book2",
+                content: "タスク２"
+              }]
+            })
+          }
       } catch (err) {
         console.log(err);
-        callback(err, null);
+        return err;
       }
-    
-      callback(null, response)
+      return response;
 };
