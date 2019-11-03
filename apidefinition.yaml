@@ -1,0 +1,136 @@
+openapi: 3.0.0
+info:
+  title: Todo Rest API
+  description: TodoアプリのAPI仕様書
+  version: 1.0.0
+paths:
+  /tasks:
+    get:
+      tags:
+        - tasks
+      summary: Get all tasks.
+      description: Returns an array of Task model
+      parameters: []
+      responses:
+        '200':
+          description: A JSON array of Task model
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+    post:
+      tags: 
+        - tasks
+      summary: 新しいタスクを作成
+      description: Create a new task
+      parameters: []
+      requestBody:
+        description: user to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskRequest'
+      responses:
+        '201':
+          description: CREATED
+  /tasks/{taskId}:
+    get:
+      tags:
+        - tasks
+      summary: TodoのIDの単体取得.
+      description: Returns a Task model
+      parameters: 
+        - name: taskId
+          in: path
+          description: Task id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A single User model
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Task'
+    put:
+      tags:
+        - tasks
+      summary: Todoの更新.
+      description: Returns a updated Task model
+      parameters: 
+        - name: taskId
+          in: path
+          description: Task id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: user to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskRequest'
+      responses:
+        '204':
+          description: Successfully updated
+        '201':
+          description: Successfully created
+        '409':
+          description: Conflict
+          
+    delete:
+      tags:
+        - tasks
+      summary: Todoの削除.
+      description: Returns a updated Task model
+      parameters: 
+        - name: taskId
+          in: path
+          description: Task id
+          required: true
+          schema:
+            type: integer     
+      responses:
+        '204':
+          description: Successfully deleted
+        '409':
+          description: Conflict
+                  
+components:
+  schemas:
+    Task:
+      type: object
+      required:
+        - id
+        - title
+        - content
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        content:
+          type: string
+      example: 
+        - id: 1
+          title: 買い物
+          content: Air Pods Proを買いに行く
+    TaskRequest:
+      type: object
+      required:
+        - title
+        - content
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+      example: 
+        title: Lambdaについて学ぶ
+        content: APIGatewayを使ったRESTAPIの作成。       
+          
+          
