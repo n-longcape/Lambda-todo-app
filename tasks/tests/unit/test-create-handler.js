@@ -17,6 +17,5 @@ describe('Test Create', function () {
 
         expect(response).to.be.an('object');
         expect(response.result).to.be.equal("this is create method");
-        // expect(response.location).to.be.an("string");
     });
 });
