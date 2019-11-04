@@ -1,6 +1,6 @@
 'use strict';
 
-const app = require('../../handlers/getTasks.js');
+const app = require('../../handlers/getTask.js');
 const chai = require('chai');
 const expect = chai.expect;
 var event, context;

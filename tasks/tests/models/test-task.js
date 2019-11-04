@@ -1,14 +1,14 @@
 const aws = require("aws-sdk-mock");
 const path = require("path");
-const uuid = require('uuid')
+const task = require("../../models/task");
+const chai = require('chai');
+const expect = chai.expect;
+const stub = require("../libs/dynamo-stub")
 const input = {
-    'id': uuid.v1(),
+    'id': 1,
     'title': 'test task',
     'content': 'test code content'
 }
-const tasks = require("../../models/tasks");
-const chai = require('chai');
-const expect = chai.expect;
 
 aws.setSDK(path.resolve('node_modules/aws-sdk'))
 
@@ -17,28 +17,8 @@ describe('Get Task Test', function() {
     this.timeout(0)
 
     beforeEach(function() {
-        aws.mock('DynamoDB.DocumentClient', 'put', function(params, callback) {
-            callback(null, 'successfully put item in database')
-        })
-
-        aws.mock('DynamoDB.DocumentClient', 'get', function(params, callback) {
-            callback(null, { Item: { id : params.Key.id, title : input.title, content : input.content } })
-        })
-
-        aws.mock('DynamoDB.DocumentClient', 'scan', function(params, callback) {
-            callback(null, { Item: [{ id : input.id, title : input.title, content : input.content }] })
-        })
-
-
-        aws.mock('DynamoDB.DocumentClient', 'update', function(params, callback) {
-            callback(null, { Item: { id : input.id, title : 'change task title', content : 'change task content' } })
-        })
-
-        aws.mock('DynamoDB.DocumentClient', 'delete', function(params, callback) {
-            callback(null, 'successfully delete item in database')
-        })
-
-        taskObj = new tasks()
+        stub.create();
+        taskObj = new task()
     })
 
     it('getAllData', function(done) { 
@@ -50,7 +30,7 @@ describe('Get Task Test', function() {
 
     it('putData', function(done) { 
         taskObj.putData(input).then(function(res) {
-          expect(res).to.be.equal('successfully put item in database')
+          expect(res).to.be.equal('')
           done()
         })
     })
@@ -81,7 +61,7 @@ describe('Get Task Test', function() {
 
     it('deleteData', function(done) {
         taskObj.deleteData(input.id).then(function(res) {
-          expect(res).to.be.equal('successfully delete item in database')
+          expect(res).to.be.equal('')
           done()
         })
     })

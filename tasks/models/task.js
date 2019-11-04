@@ -1,14 +1,12 @@
 'use strict'
 
-const AWS = require("aws-sdk");
-AWS.config.update({region:'ap-northeast-1'})
-
-class Tasks {
-
+const AWS = require("aws-sdk")
+module.exports = class Task {
     constructor() {
         this.table = "Tasks";
-        // this.dynamodb = new AWS.DynamoDB()
-        this.docClient = new AWS.DynamoDB.DocumentClient();
+        const endpoint = process.env.DYNAMODB_ENDPOINT
+        const config = endpoint? { endpoint } : { region: 'ap-northeast-1' }
+        this.docClient = new AWS.DynamoDB.DocumentClient(config);
     }
 
     getAllData() {
@@ -68,4 +66,3 @@ class Tasks {
     }
 }
 
-module.exports = Tasks
