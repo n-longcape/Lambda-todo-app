@@ -9,7 +9,7 @@ exports.lambdaHandler = async (event, context) => {
     if (Object.keys(await model.getData(request.id)).length != 0) {
       return {
         "statusCode": 400,
-        "body": JSON.stringify({ error: 'This id is already used' })
+        "body": JSON.stringify({ message: 'This id is already used' })
       }
     }
 
