@@ -15,7 +15,7 @@ describe('Test Create', function () {
     })
 
     it('create successful response', async () => {
-        var event = {body: JSON.stringify({id: 2, title: 'Test Code Title', content: 'Test Content'})}      
+        var event = { body: JSON.stringify({ id: 2, title: 'Test Code Title', content: 'Test Content' }) }
         const result = await app.lambdaHandler(event, context)
 
         expect(result).to.be.an('object');
@@ -29,7 +29,7 @@ describe('Test Create', function () {
     })
 
     it('task id alredy exist', async () => {
-        var event = {body: JSON.stringify({id: 1, title: 'Test Code Title', content: 'Test Content'})}      
+        var event = { body: JSON.stringify({ id: 1, title: 'Test Code Title', content: 'Test Content' }) }
         const result = await app.lambdaHandler(event, context)
 
         expect(result).to.be.an('object');

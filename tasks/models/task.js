@@ -5,7 +5,7 @@ module.exports = class Task {
     constructor() {
         this.table = "Tasks";
         const endpoint = process.env.DYNAMODB_ENDPOINT
-        const config = endpoint? { endpoint } : { region: 'ap-northeast-1' }
+        const config = endpoint ? { endpoint } : { region: 'ap-northeast-1' }
         this.docClient = new AWS.DynamoDB.DocumentClient(config);
     }
 
@@ -17,7 +17,7 @@ module.exports = class Task {
         return this.docClient.scan(params).promise()
     }
 
-    getData(taskId){
+    getData(taskId) {
         const params = {
             TableName: this.table,
             Key: {

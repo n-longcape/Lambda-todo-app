@@ -12,37 +12,37 @@ const input = {
 
 aws.setSDK(path.resolve('node_modules/aws-sdk'))
 
-describe('Get Task Test', function() {
+describe('Get Task Test', function () {
 
     this.timeout(0)
 
-    beforeEach(function() {
+    beforeEach(function () {
         stub.create();
         taskObj = new task()
     })
 
-    it('getAllData', function(done) { 
-        taskObj.getAllData().then(function(res) {
+    it('getAllData', function (done) {
+        taskObj.getAllData().then(function (res) {
             expect(res.Item[0]).to.deep.equal(input)
-          done()
+            done()
         })
     })
 
-    it('putData', function(done) { 
-        taskObj.putData(input).then(function(res) {
-          expect(res).to.be.equal('')
-          done()
-        })
-    })
-    
-    it('getData', function(done) {
-        taskObj.getData(input.id).then(function(res) {
-          expect(res.Item).to.deep.equal(input)
-          done()
+    it('putData', function (done) {
+        taskObj.putData(input).then(function (res) {
+            expect(res).to.be.equal('')
+            done()
         })
     })
 
-    it('updateData', function(done) {
+    it('getData', function (done) {
+        taskObj.getData(input.id).then(function (res) {
+            expect(res.Item).to.deep.equal(input)
+            done()
+        })
+    })
+
+    it('updateData', function (done) {
         let updateParams = {
             title: 'change task title',
             content: 'change task content'
@@ -53,16 +53,16 @@ describe('Get Task Test', function() {
             title: 'change task title',
             content: 'change task content'
         }
-        taskObj.updateData(input.id, updateParams).then(function(res) {
-          expect(res.Item).to.deep.equal(expected)
-          done()
+        taskObj.updateData(input.id, updateParams).then(function (res) {
+            expect(res.Item).to.deep.equal(expected)
+            done()
         })
     })
 
-    it('deleteData', function(done) {
-        taskObj.deleteData(input.id).then(function(res) {
-          expect(res).to.be.equal('')
-          done()
+    it('deleteData', function (done) {
+        taskObj.deleteData(input.id).then(function (res) {
+            expect(res).to.be.equal('')
+            done()
         })
     })
 
