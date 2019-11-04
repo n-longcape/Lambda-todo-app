@@ -10,7 +10,7 @@ Resources:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: tasks/
-      Handler: handlers/getTasks.lambdaHandler
+      Handler: handlers/getTask.findTaskHandler
       Runtime: nodejs10.x
       Environment:
         Variables:
@@ -19,13 +19,13 @@ Resources:
         GetTasks:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /tasks/{tasks_id}
+            Path: /tasks/{task_id}
             Method: get
   GetTasksFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: tasks/
-      Handler: handlers/getTasks.lambdaHandler
+      Handler: handlers/getTask.getTaskHandler
       Runtime: nodejs10.x
       Environment:
         Variables:
@@ -49,7 +49,7 @@ Resources:
         UpdateTasks:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /tasks/{tasks_id}
+            Path: /tasks/{task_id}
             Method: patch
   DeleteTaskFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -64,7 +64,7 @@ Resources:
         DeleteTask:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /tasks/{tasks_id}
+            Path: /tasks/{task_id}
             Method: delete
   CreateTaskFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
