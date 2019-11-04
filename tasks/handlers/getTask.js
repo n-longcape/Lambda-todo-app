@@ -1,23 +1,36 @@
 
+const Task = require('../models/task');
 let response;
 
 exports.lambdaHandler = async (event, context) => {
+  let model = new Task()
   try {
-    response = {
-      "statusCode": 200,
-      "body": JSON.stringify({
-        books: [{
-          title: "ああ",
-          content: "category1"
-        }, {
-          title: "book2",
-          content: "タスク２"
-        }]
-      })
-    }
+    return model.getAllData().then(function (res) {
+      return {
+        "statusCode": 200,
+        "body": JSON.stringify(res.Items)
+      }
+    });
   } catch (err) {
     console.log(err);
     return err;
   }
-  return response;
+};
+
+
+exports.findTaskHandler = async (event, context) => {
+  let model = new Task()
+  try {
+    const taskId = parseInt(event.pathParameters.task_id)
+    return model.getData(taskId).then(function (res) {
+      return {
+        "statusCode": 200,
+        "body": JSON.stringify(res.Item)
+      }
+    });
+    let request = JSON.parse(event.body)
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
 };

@@ -8,6 +8,25 @@ const input = {
     'content': 'test code content'
 }
 
+const inputsForScan = [
+    input,
+    {
+        'id': 2,
+        'title': 'test task2',
+        'content': 'test code content2'
+    },
+    {
+        'id': 3,
+        'title': 'test task3',
+        'content': 'test code content3'
+    },
+    {
+        'id': 4,
+        'title': 'test task4',
+        'content': 'test code content4'
+    }  
+]
+
 function create() {
     aws.mock('DynamoDB.DocumentClient', 'put', function (params, callback) {
         callback(null, '')
@@ -23,7 +42,7 @@ function create() {
 
     aws.mock('DynamoDB.DocumentClient', 'scan', function (params, callback) {
 
-        callback(null, { Item: [{ id: input.id, title: input.title, content: input.content }] })
+        callback(null, { Items: inputsForScan })
     })
 
     aws.mock('DynamoDB.DocumentClient', 'update', function (params, callback) {

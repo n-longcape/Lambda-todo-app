@@ -2,12 +2,9 @@
 
 const app = require('../../handlers/create.js')
 const chai = require('chai')
-const sinon = require('sinon')
-const Task = require('../../models/task')
 const stub = require("../libs/dynamo-stub")
 const expect = chai.expect;
 var event, context;
-let model = new Task()
 
 describe('Test Create', function () {
     beforeEach('mock dependency', function () {
