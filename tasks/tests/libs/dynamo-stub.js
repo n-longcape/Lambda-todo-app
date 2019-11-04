@@ -27,7 +27,7 @@ function create() {
     })
 
     aws.mock('DynamoDB.DocumentClient', 'update', function (params, callback) {
-        callback(null, { Item: { id: input.id, title: params.ExpressionAttributeValues[':title'], content: params.ExpressionAttributeValues[':content'] } })
+        callback(null, { Attributes: { id: input.id, title: params.ExpressionAttributeValues[':title'], content: params.ExpressionAttributeValues[':content'] } })
     })
 
     aws.mock('DynamoDB.DocumentClient', 'delete', function (params, callback) {

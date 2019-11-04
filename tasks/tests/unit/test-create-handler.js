@@ -39,7 +39,7 @@ describe('Test Create', function () {
         let response = JSON.parse(result.body)
 
         expect(response).to.be.an('object')
-        expect(response.error).to.be.equal('This id is already used')
+        expect(response.message).to.be.equal('This id is already used')
     })
 
 })

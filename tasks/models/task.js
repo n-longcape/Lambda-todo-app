@@ -40,12 +40,17 @@ module.exports = class Task {
     }
 
     updateData(taskId, task) {
+        let updateExpression = 'set';
         const params = {
             TableName: this.table,
             Key: {
                 'id': taskId,
             },
-            UpdateExpression: "set title = :title, content=:content",
+            UpdateExpression: "set #title = :title, #content = :content",
+            ExpressionAttributeNames: {
+                "#title": "title",
+                "#content": "content"
+            },
             ExpressionAttributeValues: {
                 ':title': task.title,
                 ':content': task.content

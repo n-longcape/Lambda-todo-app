@@ -12,6 +12,9 @@ Resources:
       CodeUri: tasks/
       Handler: handlers/getTasks.lambdaHandler
       Runtime: nodejs10.x
+      Environment:
+        Variables:
+          DYNAMODB_ENDPOINT: "192.168.10.10:8000"       
       Events:
         GetTasks:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -24,6 +27,9 @@ Resources:
       CodeUri: tasks/
       Handler: handlers/getTasks.lambdaHandler
       Runtime: nodejs10.x
+      Environment:
+        Variables:
+          DYNAMODB_ENDPOINT: "192.168.10.10:8000"       
       Events:
         GetTaskss:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -36,6 +42,9 @@ Resources:
       CodeUri: tasks/
       Handler: handlers/update.lambdaHandler
       Runtime: nodejs10.x
+      Environment:
+        Variables:
+          DYNAMODB_ENDPOINT: "192.168.10.10:8000"       
       Events:
         UpdateTasks:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -48,6 +57,9 @@ Resources:
       CodeUri: tasks/
       Handler: handlers/delete.lambdaHandler
       Runtime: nodejs10.x
+      Environment:
+        Variables:
+          DYNAMODB_ENDPOINT: "192.168.10.10:8000"       
       Events:
         DeleteTask:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
