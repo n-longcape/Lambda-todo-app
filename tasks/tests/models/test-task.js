@@ -3,7 +3,7 @@ const path = require("path");
 const task = require("../../models/task");
 const chai = require('chai');
 const expect = chai.expect;
-const stub = require("../libs/dynamo-stub")
+const dynamoStub = require("../libs/dynamo-stub")
 const input = {
     'id': 1,
     'title': 'test task',
@@ -17,7 +17,7 @@ describe('Get Task Test', function () {
     this.timeout(0)
 
     beforeEach(function () {
-        stub.create();
+        dynamoStub.create();
         taskObj = new task()
     })
 

@@ -2,22 +2,42 @@
 
 const app = require('../../handlers/delete.js');
 const chai = require('chai');
+const dynamoStub = require("../libs/dynamo-stub")
 const expect = chai.expect;
 var event, context;
 
 
-describe('Test Delete', function () {
-    it('verifies successful response', async () => {
+describe('Test Delete', function () {    
+    beforeEach('mock dependency', function () {
+        dynamoStub.create()
+    })
+
+    it('Delete successful response', async () => {
+        const taskId = 1
+        var event = {
+             pathParameters: {task_id: taskId} 
+            }
+        const result = await app.lambdaHandler(event, context)
+
+
+        expect(result).to.be.an('object');
+        expect(result.statusCode).to.equal(204)
+    })
+
+    it('task not found', async () => {
+        const taskId = 2
+        var event = {
+             pathParameters: {task_id: taskId} 
+            }
         const result = await app.lambdaHandler(event, context)
 
         expect(result).to.be.an('object');
-        expect(result.statusCode).to.equal(200);
-        expect(result.body).to.be.an('string');
+        expect(result.statusCode).to.equal(404)
+        expect(result.body).to.be.an('string')
 
-        let response = JSON.parse(result.body);
+        let response = JSON.parse(result.body)
 
-        expect(response).to.be.an('object');
-        expect(response.result).to.be.equal("this is delete method");
-        // expect(response.location).to.be.an("string");
-    });
+        expect(response).to.be.an('object')
+        expect(response.message).to.be.equal('Not found')
+    })
 });

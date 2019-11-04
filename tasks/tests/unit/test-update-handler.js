@@ -4,14 +4,14 @@ const app = require('../../handlers/update.js')
 const chai = require('chai')
 const sinon = require('sinon')
 const Task = require('../../models/task')
-const stub = require("../libs/dynamo-stub")
+const dynamoStub = require("../libs/dynamo-stub")
 const expect = chai.expect;
 var event, context;
 let model = new Task()
 
 describe('Test Update', function () {
     beforeEach('mock dependency', function () {
-        stub.create()
+        dynamoStub.create()
     })
 
     it('Update successful response', async () => {

@@ -2,14 +2,14 @@
 
 const app = require('../../handlers/getTask.js');
 const chai = require('chai');
-const stub = require("../libs/dynamo-stub")
+const dynamoStub = require("../libs/dynamo-stub")
 const expect = chai.expect;
 var event, context;
 
 describe('Test Index', function () {
 
     beforeEach('mock dependency', function () {
-        stub.create()
+        dynamoStub.create()
     })
 
     it('GetAllData successful response', async () => {

@@ -2,13 +2,13 @@
 
 const app = require('../../handlers/create.js')
 const chai = require('chai')
-const stub = require("../libs/dynamo-stub")
+const dynamoStub = require("../libs/dynamo-stub")
 const expect = chai.expect;
 var event, context;
 
 describe('Test Create', function () {
     beforeEach('mock dependency', function () {
-        stub.create()
+        dynamoStub.create()
     })
 
     it('create successful response', async () => {
