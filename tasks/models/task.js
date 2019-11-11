@@ -15,13 +15,14 @@ module.exports = class Task {
         let params = {
             TableName: this.table,
         }
-        
         let searchColumns = []
 
-        // フィルタリング
-        for(let key in columns) {
-            if(query[columns[key]]) {
-                searchColumns[[columns[key]]] = query[columns[key]];
+        if(Object.keys(query).length > 0) {
+            // カラムのフィルタリング
+            for (let key in columns) {
+                if (query[columns[key]]) {
+                    searchColumns[[columns[key]]] = query[columns[key]];
+                }
             }
         }
 

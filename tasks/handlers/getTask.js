@@ -4,8 +4,12 @@ let response;
 
 exports.lambdaHandler = async (event, context) => {
   let model = new Task()
+  let query = {}
+  if(event.queryStringParameters) {
+    query = event.queryStringParameters
+  }
   try {
-    return model.getAllData(event.queryStringParameters).then(function (res) {
+    return model.getAllData(query).then(function (res) {
       return {
         "statusCode": 200,
         "body": JSON.stringify(res.Items)
