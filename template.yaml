@@ -12,9 +12,10 @@ Resources:
       CodeUri: tasks/
       Handler: handlers/getTask.findTaskHandler
       Runtime: nodejs10.x
+      Policies: AmazonDynamoDBFullAccess
       Environment:
         Variables:
-          DYNAMODB_ENDPOINT: "192.168.10.10:8000"       
+          DYNAMODB_ENDPOINT: ""
       Events:
         GetTasks:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -27,24 +28,42 @@ Resources:
       CodeUri: tasks/
       Handler: handlers/getTask.lambdaHandler
       Runtime: nodejs10.x
+      Policies: AmazonDynamoDBFullAccess
       Environment:
         Variables:
-          DYNAMODB_ENDPOINT: "192.168.10.10:8000"       
+          DYNAMODB_ENDPOINT: ""
       Events:
         GetTaskss:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
             Path: /tasks
             Method: get
+  CreateTaskFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: tasks
+      Handler: handlers/create.lambdaHandler
+      Runtime: nodejs10.x
+      Policies: AmazonDynamoDBFullAccess
+      Environment:
+        Variables:
+          DYNAMODB_ENDPOINT: ""
+      Events:
+        CreateTask:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /tasks/
+            Method: post
   UpdateTaskFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: tasks/
       Handler: handlers/update.lambdaHandler
       Runtime: nodejs10.x
+      Policies: AmazonDynamoDBFullAccess
       Environment:
         Variables:
-          DYNAMODB_ENDPOINT: "192.168.10.10:8000"       
+          DYNAMODB_ENDPOINT: ""
       Events:
         UpdateTasks:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -57,40 +76,48 @@ Resources:
       CodeUri: tasks/
       Handler: handlers/delete.lambdaHandler
       Runtime: nodejs10.x
+      Policies: AmazonDynamoDBFullAccess
       Environment:
         Variables:
-          DYNAMODB_ENDPOINT: "192.168.10.10:8000"       
+          DYNAMODB_ENDPOINT: ""
       Events:
         DeleteTask:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
             Path: /tasks/{task_id}
             Method: delete
-  CreateTaskFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: tasks
-      Handler: handlers/create.lambdaHandler
-      Runtime: nodejs10.x
-      Environment:
-        Variables:
-          DYNAMODB_ENDPOINT: "192.168.10.10:8000" 
-      Events:
-        CreateTask:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /tasks/
-            Method: post
-
-
 
 Outputs:
-  HelloWorldApi:
-    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
-  HelloWorldFunction:
-    Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt HelloWorldFunction.Arn
-  HelloWorldFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt HelloWorldFunctionRole.Arn
+  GetTaskApi:
+    Description: "API Gateway endpoint URL for Prod stage for Task function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/tasks"
+  GetTaskFunction:
+    Description: "Get Task Lambda Function ARN"
+    Value: !GetAtt GetTaskFunction.Arn
+  GetTaskFunctionIamRole:
+    Description: "Implicit IAM Role created for CreateTask function"
+    Value: !GetAtt GetTaskFunctionRole.Arn
+  GetTasksFunction:
+    Description: "Get Tasks Lambda Function ARN"
+    Value: !GetAtt GetTasksFunction.Arn
+  GetTasksFunctionIamRole:
+    Description: "Implicit IAM Role created for Get Task function"
+    Value: !GetAtt GetTasksFunctionRole.Arn
+  CreateTaskFunction:
+    Description: "Create Task Lambda Function ARN"
+    Value: !GetAtt CreateTaskFunction.Arn
+  CreateTaskFunctionIamRole:
+    Description: "Implicit IAM Role created for Create Task function"
+    Value: !GetAtt CreateTaskFunctionRole.Arn
+  UpdateTaskFunction:
+    Description: "Update Task Lambda Function ARN"
+    Value: !GetAtt UpdateTaskFunction.Arn
+  UpdateTaskFunctionIamRole:
+    Description: "Implicit IAM Role created for Update Task function"
+    Value: !GetAtt UpdateTaskFunctionRole.Arn
+  DeleteTaskFunction:
+    Description: "Delete Task Lambda Function ARN"
+    Value: !GetAtt DeleteTaskFunction.Arn
+  DeleteTaskFunctionIamRole:
+    Description: "Implicit IAM Role created for Delete Task function"
+    Value: !GetAtt DeleteTaskFunctionRole.Arn
