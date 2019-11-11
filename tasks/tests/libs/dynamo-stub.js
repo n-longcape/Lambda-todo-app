@@ -22,8 +22,8 @@ const inputsForScan = [
     },
     {
         'id': 4,
-        'title': 'test task4',
-        'content': 'test code content4'
+        'title': 'filtering test',
+        'content': 'search test'
     }  
 ]
 
@@ -41,8 +41,19 @@ function create() {
     })
 
     aws.mock('DynamoDB.DocumentClient', 'scan', function (params, callback) {
-
-        callback(null, { Items: inputsForScan })
+        // title検索用mock
+        if ("ExpressionAttributeNames" in params) {
+            let items = inputsForScan
+            if (params.ExpressionAttributeNames["#title"] && params.ExpressionAttributeValues[":title"]) {
+                items = items.filter(data => data.title.includes(params.ExpressionAttributeValues[":title"]))
+            }
+            if (params.ExpressionAttributeNames["#content"] && params.ExpressionAttributeValues[":content"]) {
+                items = items.filter(data => data.content.includes(params.ExpressionAttributeValues[":content"]))
+            }
+            callback(null, {Items: items})
+        } else {
+            callback(null, {Items: inputsForScan})
+        }
     })
 
     aws.mock('DynamoDB.DocumentClient', 'update', function (params, callback) {

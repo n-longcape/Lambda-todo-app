@@ -21,9 +21,31 @@ describe('Get Task Test', function () {
         taskObj = new task()
     })
 
-    it('getAllData', function (done) {
-        taskObj.getAllData().then(function (res) {
-            expect(res.Item[0]).to.deep.equal(input)
+    it('getAllData full scan', function (done) {
+        taskObj.getAllData({}).then(function (res) {
+            let items = res.Items
+            expect(items[0]).to.deep.equal(input)
+            expect(items.length).to.be.equal(4);
+            done()
+        })
+    })
+
+    it('getAllData title search', function (done) {
+        taskObj.getAllData({title: "test task2"}).then(function (res) {
+            let expected = {id: 2, title: "test task2", content:"test code content2"}
+            let items = res.Items
+            expect(items[0]).to.deep.equal(expected)
+            expect(items.length).to.be.equal(1);
+            done()
+        })
+    })
+
+    it('getAllData content search', function (done) {
+        taskObj.getAllData({content:"test code content2"}).then(function (res) {
+            let expected = {id: 2, title: "test task2", content:"test code content2"}
+            let items = res.Items
+            expect(items[0]).to.deep.equal(expected)
+            expect(items.length).to.be.equal(1);
             done()
         })
     })
@@ -54,7 +76,7 @@ describe('Get Task Test', function () {
             content: 'change task content'
         }
         taskObj.updateData(input.id, updateParams).then(function (res) {
-            expect(res.Item).to.deep.equal(expected)
+            expect(res.Attributes).to.deep.equal(expected)
             done()
         })
     })

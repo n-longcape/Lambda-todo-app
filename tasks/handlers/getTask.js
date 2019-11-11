@@ -5,7 +5,7 @@ let response;
 exports.lambdaHandler = async (event, context) => {
   let model = new Task()
   try {
-    return model.getAllData().then(function (res) {
+    return model.getAllData(event.queryStringParameters).then(function (res) {
       return {
         "statusCode": 200,
         "body": JSON.stringify(res.Items)
