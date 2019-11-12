@@ -6,13 +6,6 @@ exports.lambdaHandler = async (event, context) => {
 
   try {
     let request = JSON.parse(event.body)
-    if (Object.keys(await model.getData(request.id)).length != 0) {
-      return {
-        "statusCode": 400,
-        "body": JSON.stringify({ message: 'This id is already used' })
-      }
-    }
-
     return model.putData(JSON.parse(event.body)).then(function (res) {
       return {
         "statusCode": 201,

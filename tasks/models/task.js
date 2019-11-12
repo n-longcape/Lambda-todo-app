@@ -1,5 +1,6 @@
 'use strict'
 
+let util = require('../util')
 const AWS = require('aws-sdk')
 const columns = ["title", "content"]
 
@@ -45,20 +46,21 @@ module.exports = class Task {
         return this.docClient.get(params).promise()
     }
 
-    putData(task) {
+    async putData (task) {
+        let sequence = await util.getNextId(this.table);
+        let nextId = sequence.Attributes.current_number
         const params = {
             TableName: this.table,
             Item: {
-                'id': task.id,
+                'id': nextId,
                 'title': task.title,
                 'content': task.content
-            }
+            },
         }
-        return this.docClient.put(params).promise()
+        return this.docClient.put(params).promise();
     }
 
     updateData(taskId, task) {
-        let updateExpression = 'set';
         const params = {
             TableName: this.table,
             Key: {
