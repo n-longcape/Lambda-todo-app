@@ -37,9 +37,14 @@ exports.findTaskHandler = async (event, context) => {
   try {
     const taskId = parseInt(event.pathParameters.task_id)
     return model.getData(taskId).then(function (res) {
+      // 空の場合
+      if(Object.keys(res).length <= 0) {
+        return notFoundResponse()
+      }
+
       return {
         "statusCode": 200,
-        "body": JSON.stringify(formatResponse(res.Item))
+        "body": JSON.stringify(res.Item)
       }
     });
   } catch (err) {
@@ -54,5 +59,12 @@ function formatResponse(item) {
     'id': item.id,
     'title': item.title,
     'content': item.content
+  }
+}
+
+function notFoundResponse() {
+  return {
+    "statusCode": 404,
+  "body": JSON.stringify({message: 'task not found'})
   }
 }
