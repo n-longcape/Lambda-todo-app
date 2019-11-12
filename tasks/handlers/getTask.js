@@ -10,9 +10,20 @@ exports.lambdaHandler = async (event, context) => {
   }
   try {
     return model.getAllData(query).then(function (res) {
+      let itemsResponse = [];
+      for (key in res.Items) {
+        itemsResponse.push(formatResponse(res.Items[key])) 
+      }
+      itemsResponse.sort(function(a, b) {
+        if (a.id > b.id) {
+          return 1;
+        } else {
+          return -1;
+        }
+      })
       return {
         "statusCode": 200,
-        "body": JSON.stringify(res.Items)
+        "body": JSON.stringify(itemsResponse)
       }
     });
   } catch (err) {
@@ -20,7 +31,6 @@ exports.lambdaHandler = async (event, context) => {
     return err;
   }
 };
-
 
 exports.findTaskHandler = async (event, context) => {
   let model = new Task()
@@ -29,12 +39,20 @@ exports.findTaskHandler = async (event, context) => {
     return model.getData(taskId).then(function (res) {
       return {
         "statusCode": 200,
-        "body": JSON.stringify(res.Item)
+        "body": JSON.stringify(formatResponse(res.Item))
       }
     });
-    let request = JSON.parse(event.body)
   } catch (err) {
     console.log(err);
     return err;
   }
 };
+
+function formatResponse(item) {
+  console.log(item)
+  return {
+    'id': item.id,
+    'title': item.title,
+    'content': item.content
+  }
+}

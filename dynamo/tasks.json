@@ -3,6 +3,10 @@
     {
       "AttributeName": "id",
       "AttributeType": "N"
+    },
+    {
+      "AttributeName": "created_timestamp",
+      "AttributeType": "N"
     }
   ],
   "TableName": "Tasks",
@@ -10,6 +14,10 @@
     {
       "AttributeName": "id",
       "KeyType": "HASH"
+    },
+    {
+      "AttributeName": "created_timestamp",
+      "KeyType": "RANGE"
     }
   ],
   "ProvisionedThroughput": {

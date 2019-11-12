@@ -27,6 +27,7 @@ module.exports = class Task {
             }
         }
 
+        // 該当検索キーがあれば絞り込みをする
         if(Object.keys(searchColumns).length > 0) {
             Object.assign(params, this.createAttributeParameter(searchColumns))
         } else {
@@ -49,12 +50,15 @@ module.exports = class Task {
     async putData (task) {
         let sequence = await util.getNextId(this.table);
         let nextId = sequence.Attributes.current_number
+        const date = new Date()
+        const microSecondTime = date.getTime()
         const params = {
             TableName: this.table,
             Item: {
                 'id': nextId,
                 'title': task.title,
-                'content': task.content
+                'content': task.content,
+                'created_timestamp': Math.floor(microSecondTime / 1000)
             },
         }
         return this.docClient.put(params).promise();
