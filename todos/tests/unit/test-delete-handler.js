@@ -1,6 +1,6 @@
 'use strict';
 
-const app = require('../../handlers/delete.js');
+const app = require('../../app.js');
 const chai = require('chai');
 const dynamoStub = require("../libs/dynamo-stub")
 const expect = chai.expect;
@@ -17,7 +17,7 @@ describe('Test Delete', function () {
         var event = {
              pathParameters: {todo_id: todoId} 
             }
-        const result = await app.lambdaHandler(event, context)
+        const result = await app.deleteHandler(event, context)
 
 
         expect(result).to.be.an('object');
@@ -29,7 +29,7 @@ describe('Test Delete', function () {
         var event = {
              pathParameters: {todo_id: todoId} 
             }
-        const result = await app.lambdaHandler(event, context)
+        const result = await app.deleteHandler(event, context)
 
         expect(result).to.be.an('object');
         expect(result.statusCode).to.equal(404)
