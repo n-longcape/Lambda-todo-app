@@ -17,3 +17,11 @@ exports.getNextId = function (tableName) {
     }
     return docClient.update(params).promise()
 }
+
+exports.isString = function (value) {
+    return typeof value === 'string'
+}
+
+exports.isInt = function (value) {
+    return typeof value === 'number'
+}

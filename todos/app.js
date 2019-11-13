@@ -1,4 +1,5 @@
 const Todo = require('./models/todo');
+let util = require('./util')
 
 let response;
 
@@ -58,6 +59,12 @@ exports.createHandler = async (event, context) => {
 
   try {
     let request = JSON.parse(event.body)
+
+    // Validator
+    if (!request.title || !request.content || !(util.isString(request.title)) || !(util.isString(request.content))) {
+      return validationErrorResponse()
+    }
+
     return model.putData(request).then(function (res) {
       return {
         "statusCode": 201,
@@ -79,11 +86,9 @@ exports.updateHandler = async (event, context) => {
     const todoId = parseInt(event.pathParameters.todo_id)
     let request = JSON.parse(event.body)
 
-    if (!request.title || !request.content) {
-      return {
-        "statusCode": 400,
-        "body": JSON.stringify({ message: 'Bad request' })
-      }
+    // Validator
+    if ((!request.title) || !request.content || !util.isString(request.title) || !util.isString(request.content)) {
+      return validationErrorResponse()
     }
 
     // IDが存在しなければ新規作成を行う
@@ -136,6 +141,13 @@ exports.deleteHandler = async (event, context) => {
     }
   }
 };
+
+function validationErrorResponse() {
+  return {
+    "statusCode": 400,
+    "body": JSON.stringify({ message: 'Bad request' })
+  }
+}
 
 function formatResponse(item) {
   console.log(item)
