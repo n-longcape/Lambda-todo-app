@@ -98,8 +98,12 @@ paths:
             schema:
               $ref: '#/components/schemas/TodoRequest'
       responses:
-        '204':
+        '200':
           description: Successfully updated
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Todo'          
         '201':
           description: Successfully created
         '404':
@@ -159,10 +163,14 @@ components:
           type: string
         content:
           type: string
+        created_timestamp:
+          type: integer
+          format: int64
       example: 
-        - id: 1
+          id: 1
           title: 買い物
           content: Air Pods Proを買いに行く
+          created_timestamp: 1573655151
     TodoRequest:
       type: object
       required:
