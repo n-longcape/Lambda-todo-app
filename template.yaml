@@ -10,7 +10,7 @@ Resources:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: todos/
-      Handler: handlers/getTodo.findTodoHandler
+      Handler: handlers/app.findHandler
       Runtime: nodejs10.x
       Policies: AmazonDynamoDBFullAccess
       Environment:
@@ -26,7 +26,7 @@ Resources:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: todos/
-      Handler: handlers/getTodo.lambdaHandler
+      Handler: handlers/app.getAllHandler
       Runtime: nodejs10.x
       Policies: AmazonDynamoDBFullAccess
       Environment:
@@ -42,7 +42,7 @@ Resources:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: todos
-      Handler: handlers/create.lambdaHandler
+      Handler: handlers/app.createHandler
       Runtime: nodejs10.x
       Policies: AmazonDynamoDBFullAccess
       Environment:
@@ -58,7 +58,7 @@ Resources:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: todos/
-      Handler: handlers/update.lambdaHandler
+      Handler: handlers/app.updateHandler
       Runtime: nodejs10.x
       Policies: AmazonDynamoDBFullAccess
       Environment:
@@ -74,7 +74,7 @@ Resources:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: todos/
-      Handler: handlers/delete.lambdaHandler
+      Handler: handlers/app.deleteHandler
       Runtime: nodejs10.x
       Policies: AmazonDynamoDBFullAccess
       Environment:
