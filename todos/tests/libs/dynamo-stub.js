@@ -4,7 +4,7 @@ aws.setSDK(path.resolve('node_modules/aws-sdk'))
 
 const input = {
     'id': 1,
-    'title': 'test task',
+    'title': 'test todo',
     'content': 'test code content'
 }
 
@@ -12,12 +12,12 @@ const inputsForScan = [
     input,
     {
         'id': 2,
-        'title': 'test task2',
+        'title': 'test todo2',
         'content': 'test code content2'
     },
     {
         'id': 3,
-        'title': 'test task3',
+        'title': 'test todo3',
         'content': 'test code content3'
     },
     {

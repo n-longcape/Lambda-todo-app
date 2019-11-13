@@ -4,9 +4,9 @@ let util = require('../util')
 const AWS = require('aws-sdk')
 const columns = ["title", "content"]
 
-module.exports = class Task {
+module.exports = class Todo {
     constructor() {
-        this.table = 'Tasks';
+        this.table = 'Todos';
         const endpoint = process.env.DYNAMODB_ENDPOINT
         const config = endpoint ? { endpoint } : { region: 'ap-northeast-1' }
         this.docClient = new AWS.DynamoDB.DocumentClient(config);
@@ -37,17 +37,17 @@ module.exports = class Task {
         return this.docClient.scan(params).promise()
     }
 
-    getData(taskId) {
+    getData(todoId) {
         const params = {
             TableName: this.table,
             Key: {
-                'id': taskId
+                'id': todoId
             }
         };
         return this.docClient.get(params).promise()
     }
 
-    async putData (task) {
+    async putData (todo) {
         let sequence = await util.getNextId(this.table);
         let nextId = sequence.Attributes.current_number
         const date = new Date()
@@ -56,19 +56,19 @@ module.exports = class Task {
             TableName: this.table,
             Item: {
                 'id': nextId,
-                'title': task.title,
-                'content': task.content,
+                'title': todo.title,
+                'content': todo.content,
                 'created_timestamp': Math.floor(microSecondTime / 1000)
             },
         }
         return this.docClient.put(params).promise();
     }
 
-    updateData(taskId, task) {
+    updateData(todoId, todo) {
         const params = {
             TableName: this.table,
             Key: {
-                'id': taskId,
+                'id': todoId,
             },
             UpdateExpression: "set #title = :title, #content = :content",
             ExpressionAttributeNames: {
@@ -76,19 +76,19 @@ module.exports = class Task {
                 "#content": "content"
             },
             ExpressionAttributeValues: {
-                ':title': task.title,
-                ':content': task.content
+                ':title': todo.title,
+                ':content': todo.content
             },
             ReturnValues: 'ALL_NEW'
         }
         return this.docClient.update(params).promise()
     }
 
-    deleteData(taskId) {
+    deleteData(todoId) {
         const params = {
             TableName: this.table,
             Key: {
-                'id': taskId,
+                'id': todoId,
             }
         }
         return this.docClient.delete(params).promise()

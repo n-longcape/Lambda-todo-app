@@ -12,10 +12,10 @@ describe('Test Update', function () {
     })
 
     it('Update successful response', async () => {
-        const taskId = 1
+        const todoId = 1
         var event = {
              body: JSON.stringify({title: 'Test Code Title', content: 'Test Content' }),
-             pathParameters: {task_id: taskId} 
+             pathParameters: {todo_id: todoId} 
             }
         const result = await app.lambdaHandler(event, context)
         
@@ -27,14 +27,14 @@ describe('Test Update', function () {
         let response = JSON.parse(result.body)
 
         expect(response).to.be.an('object')
-        expect(response).to.deep.equal({id: taskId, title: 'Test Code Title', content: 'Test Content' })
+        expect(response).to.deep.equal({id: todoId, title: 'Test Code Title', content: 'Test Content' })
     })
 
     it('invalid parameter', async () => {
-        const taskId = 1
+        const todoId = 1
         var event = {
              body: JSON.stringify({content: 'Test Content'}),
-             pathParameters: {task_id: taskId} 
+             pathParameters: {todo_id: todoId} 
             }
         const result = await app.lambdaHandler(event, context)
 
@@ -48,11 +48,11 @@ describe('Test Update', function () {
         expect(response.message).to.be.equal('Bad request')
     })
 
-    it('task not found', async () => {
-        const taskId = 2
+    it('todo not found', async () => {
+        const todoId = 2
         var event = {
              body: JSON.stringify({title: 'Test Code Title', content: 'Test Content' }),
-             pathParameters: {task_id: taskId} 
+             pathParameters: {todo_id: todoId} 
             }
         const result = await app.lambdaHandler(event, context)
 

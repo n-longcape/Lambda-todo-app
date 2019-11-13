@@ -1,9 +1,9 @@
 
-const Task = require('../models/task');
+const Todo = require('../models/todo');
 let response;
 
 exports.lambdaHandler = async (event, context) => {
-  let model = new Task()
+  let model = new Todo()
   let query = {}
   if(event.queryStringParameters) {
     query = event.queryStringParameters
@@ -32,11 +32,11 @@ exports.lambdaHandler = async (event, context) => {
   }
 };
 
-exports.findTaskHandler = async (event, context) => {
-  let model = new Task()
+exports.findTodoHandler = async (event, context) => {
+  let model = new Todo()
   try {
-    const taskId = parseInt(event.pathParameters.task_id)
-    return model.getData(taskId).then(function (res) {
+    const todoId = parseInt(event.pathParameters.todo_id)
+    return model.getData(todoId).then(function (res) {
       // 空の場合
       if(Object.keys(res).length <= 0) {
         return notFoundResponse()
@@ -65,6 +65,6 @@ function formatResponse(item) {
 function notFoundResponse() {
   return {
     "statusCode": 404,
-  "body": JSON.stringify({message: 'task not found'})
+  "body": JSON.stringify({message: 'todo not found'})
   }
 }

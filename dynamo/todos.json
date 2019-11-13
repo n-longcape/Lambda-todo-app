@@ -5,7 +5,7 @@
       "AttributeType": "N"
     }
   ],
-  "TableName": "Tasks",
+  "TableName": "Todos",
   "KeySchema": [
     {
       "AttributeName": "id",

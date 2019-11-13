@@ -6,42 +6,42 @@ Globals:
     Timeout: 15
 
 Resources:
-  GetTaskFunction:
+  GetTodoFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: tasks/
-      Handler: handlers/getTask.findTaskHandler
+      CodeUri: todos/
+      Handler: handlers/getTodo.findTodoHandler
       Runtime: nodejs10.x
       Policies: AmazonDynamoDBFullAccess
       Environment:
         Variables:
           DYNAMODB_ENDPOINT: ""
       Events:
-        GetTasks:
+        GetTodos:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /tasks/{task_id}
+            Path: /todos/{todo_id}
             Method: get
-  GetTasksFunction:
+  GetTodosFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: tasks/
-      Handler: handlers/getTask.lambdaHandler
+      CodeUri: todos/
+      Handler: handlers/getTodo.lambdaHandler
       Runtime: nodejs10.x
       Policies: AmazonDynamoDBFullAccess
       Environment:
         Variables:
           DYNAMODB_ENDPOINT: ""
       Events:
-        GetTaskss:
+        GetTodoss:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /tasks
+            Path: /todos
             Method: get
-  CreateTaskFunction:
+  CreateTodoFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: tasks
+      CodeUri: todos
       Handler: handlers/create.lambdaHandler
       Runtime: nodejs10.x
       Policies: AmazonDynamoDBFullAccess
@@ -49,15 +49,15 @@ Resources:
         Variables:
           DYNAMODB_ENDPOINT: ""
       Events:
-        CreateTask:
+        CreateTodo:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /tasks/
+            Path: /todos/
             Method: post
-  UpdateTaskFunction:
+  UpdateTodoFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: tasks/
+      CodeUri: todos/
       Handler: handlers/update.lambdaHandler
       Runtime: nodejs10.x
       Policies: AmazonDynamoDBFullAccess
@@ -65,15 +65,15 @@ Resources:
         Variables:
           DYNAMODB_ENDPOINT: ""
       Events:
-        UpdateTasks:
+        UpdateTodos:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /tasks/{task_id}
+            Path: /todos/{todo_id}
             Method: put
-  DeleteTaskFunction:
+  DeleteTodoFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: tasks/
+      CodeUri: todos/
       Handler: handlers/delete.lambdaHandler
       Runtime: nodejs10.x
       Policies: AmazonDynamoDBFullAccess
@@ -81,43 +81,43 @@ Resources:
         Variables:
           DYNAMODB_ENDPOINT: ""
       Events:
-        DeleteTask:
+        DeleteTodo:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /tasks/{task_id}
+            Path: /todos/{todo_id}
             Method: delete
 
 Outputs:
-  GetTaskApi:
-    Description: "API Gateway endpoint URL for Prod stage for Task function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/tasks"
-  GetTaskFunction:
-    Description: "Get Task Lambda Function ARN"
-    Value: !GetAtt GetTaskFunction.Arn
-  GetTaskFunctionIamRole:
-    Description: "Implicit IAM Role created for CreateTask function"
-    Value: !GetAtt GetTaskFunctionRole.Arn
-  GetTasksFunction:
-    Description: "Get Tasks Lambda Function ARN"
-    Value: !GetAtt GetTasksFunction.Arn
-  GetTasksFunctionIamRole:
-    Description: "Implicit IAM Role created for Get Task function"
-    Value: !GetAtt GetTasksFunctionRole.Arn
-  CreateTaskFunction:
-    Description: "Create Task Lambda Function ARN"
-    Value: !GetAtt CreateTaskFunction.Arn
-  CreateTaskFunctionIamRole:
-    Description: "Implicit IAM Role created for Create Task function"
-    Value: !GetAtt CreateTaskFunctionRole.Arn
-  UpdateTaskFunction:
-    Description: "Update Task Lambda Function ARN"
-    Value: !GetAtt UpdateTaskFunction.Arn
-  UpdateTaskFunctionIamRole:
-    Description: "Implicit IAM Role created for Update Task function"
-    Value: !GetAtt UpdateTaskFunctionRole.Arn
-  DeleteTaskFunction:
-    Description: "Delete Task Lambda Function ARN"
-    Value: !GetAtt DeleteTaskFunction.Arn
-  DeleteTaskFunctionIamRole:
-    Description: "Implicit IAM Role created for Delete Task function"
-    Value: !GetAtt DeleteTaskFunctionRole.Arn
+  GetTodoApi:
+    Description: "API Gateway endpoint URL for Prod stage for Todo function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/todos"
+  GetTodoFunction:
+    Description: "Get Todo Lambda Function ARN"
+    Value: !GetAtt GetTodoFunction.Arn
+  GetTodoFunctionIamRole:
+    Description: "Implicit IAM Role created for CreateTodo function"
+    Value: !GetAtt GetTodoFunctionRole.Arn
+  GetTodosFunction:
+    Description: "Get Todos Lambda Function ARN"
+    Value: !GetAtt GetTodosFunction.Arn
+  GetTodosFunctionIamRole:
+    Description: "Implicit IAM Role created for Get Todo function"
+    Value: !GetAtt GetTodosFunctionRole.Arn
+  CreateTodoFunction:
+    Description: "Create Todo Lambda Function ARN"
+    Value: !GetAtt CreateTodoFunction.Arn
+  CreateTodoFunctionIamRole:
+    Description: "Implicit IAM Role created for Create Todo function"
+    Value: !GetAtt CreateTodoFunctionRole.Arn
+  UpdateTodoFunction:
+    Description: "Update Todo Lambda Function ARN"
+    Value: !GetAtt UpdateTodoFunction.Arn
+  UpdateTodoFunctionIamRole:
+    Description: "Implicit IAM Role created for Update Todo function"
+    Value: !GetAtt UpdateTodoFunctionRole.Arn
+  DeleteTodoFunction:
+    Description: "Delete Todo Lambda Function ARN"
+    Value: !GetAtt DeleteTodoFunction.Arn
+  DeleteTodoFunctionIamRole:
+    Description: "Implicit IAM Role created for Delete Todo function"
+    Value: !GetAtt DeleteTodoFunctionRole.Arn
