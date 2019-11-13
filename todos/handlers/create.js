@@ -1,8 +1,8 @@
-const Task = require('../models/task');
+const todo = require('../models/todo');
 
 let response;
 exports.lambdaHandler = async (event, context) => {
-  let model = new Task()
+  let model = new todo()
 
   try {
     let request = JSON.parse(event.body)

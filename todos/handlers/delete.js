@@ -1,20 +1,20 @@
 
-const Task = require('../models/task');
+const Todo = require('../models/todo');
 
 let response;
 
 exports.lambdaHandler = async (event, context) => {
   try {
-    let model = new Task()
-    const taskId = parseInt(event.pathParameters.task_id)
+    let model = new Todo()
+    const todoId = parseInt(event.pathParameters.todo_id)
 
-    if (Object.keys(await model.getData(taskId)).length === 0) {
+    if (Object.keys(await model.getData(todoId)).length === 0) {
       return {
         "statusCode": 404,
         "body": JSON.stringify({ message: 'Not found' })
       }
     }
-    return model.deleteData(taskId).then(function (res) {
+    return model.deleteData(todoId).then(function (res) {
       return {
         "statusCode": 204,
       }

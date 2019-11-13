@@ -1,6 +1,6 @@
 'use strict';
 
-const app = require('../../handlers/getTask.js');
+const app = require('../../handlers/getTodo.js');
 const chai = require('chai');
 const dynamoStub = require("../libs/dynamo-stub")
 const expect = chai.expect;
@@ -26,7 +26,7 @@ describe('Test Index', function () {
     });
 
     it('GetAllData successful title search', async () => {
-        event = { queryStringParameters: { title: 'test task'} }
+        event = { queryStringParameters: { title: 'test todo'} }
         const result = await app.lambdaHandler(event, context)
         expect(result).to.be.an('object');
         expect(result.statusCode).to.equal(200);
@@ -78,9 +78,9 @@ describe('Test Index', function () {
     });
 
     it('findData successful', async () => {
-        const taskId = 1
-        event = { pathParameters: {task_id: taskId} }
-        const result = await app.findTaskHandler(event, context)
+        const todoId = 1
+        event = { pathParameters: {todo_id: todoId} }
+        const result = await app.findTodoHandler(event, context)
         expect(result).to.be.an('object');
         expect(result.statusCode).to.equal(200);
         expect(result.body).to.be.an('string');
@@ -88,13 +88,13 @@ describe('Test Index', function () {
         let response = JSON.parse(result.body);
 
         expect(response).to.be.an('object');
-        expect(response.id).to.be.equal(taskId);
+        expect(response.id).to.be.equal(todoId);
     });
 
     it('findData not found', async () => {
-        const taskId = 9999
-        event = { pathParameters: {task_id: taskId} }
-        const result = await app.findTaskHandler(event, context)
+        const todoId = 9999
+        event = { pathParameters: {todo_id: todoId} }
+        const result = await app.findTodoHandler(event, context)
         expect(result).to.be.an('object');
         expect(result.statusCode).to.equal(404);
         expect(result.body).to.be.an('string');
@@ -102,7 +102,7 @@ describe('Test Index', function () {
         let response = JSON.parse(result.body);
 
         expect(response).to.be.an('object');
-        expect(response.message).to.be.equal('task not found');
+        expect(response.message).to.be.equal('todo not found');
     });
 });
 

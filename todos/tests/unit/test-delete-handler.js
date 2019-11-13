@@ -13,9 +13,9 @@ describe('Test Delete', function () {
     })
 
     it('Delete successful response', async () => {
-        const taskId = 1
+        const todoId = 1
         var event = {
-             pathParameters: {task_id: taskId} 
+             pathParameters: {todo_id: todoId} 
             }
         const result = await app.lambdaHandler(event, context)
 
@@ -24,10 +24,10 @@ describe('Test Delete', function () {
         expect(result.statusCode).to.equal(204)
     })
 
-    it('task not found', async () => {
-        const taskId = 2
+    it('todo not found', async () => {
+        const todoId = 2
         var event = {
-             pathParameters: {task_id: taskId} 
+             pathParameters: {todo_id: todoId} 
             }
         const result = await app.lambdaHandler(event, context)
 

@@ -1,11 +1,11 @@
 
-const Task = require('../models/task');
+const Todo = require('../models/todo');
 let response;
 
 exports.lambdaHandler = async (event, context) => {
   try {
-    let model = new Task()
-    const taskId = parseInt(event.pathParameters.task_id)
+    let model = new Todo()
+    const todoId = parseInt(event.pathParameters.todo_id)
     let request = JSON.parse(event.body)
 
     if(!request.title || !request.content) {
@@ -16,13 +16,13 @@ exports.lambdaHandler = async (event, context) => {
     }
 
 
-    if (Object.keys(await model.getData(taskId)).length === 0) {
+    if (Object.keys(await model.getData(todoId)).length === 0) {
       return {
         "statusCode": 404,
         "body": JSON.stringify({ message: 'Not found' })
       }
     }
-    return model.updateData(taskId, JSON.parse(event.body)).then(function (res) {
+    return model.updateData(todoId, JSON.parse(event.body)).then(function (res) {
       return {
         "statusCode": 200,
         "body": JSON.stringify(res.Attributes)
