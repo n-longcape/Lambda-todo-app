@@ -5,16 +5,16 @@ let response;
 exports.getAllHandler = async (event, context) => {
   let model = new Todo()
   let query = {}
-  if(event.queryStringParameters) {
+  if (event.queryStringParameters) {
     query = event.queryStringParameters
   }
   try {
     return model.getAllData(query).then(function (res) {
       let itemsResponse = [];
       for (key in res.Items) {
-        itemsResponse.push(formatResponse(res.Items[key])) 
+        itemsResponse.push(formatResponse(res.Items[key]))
       }
-      itemsResponse.sort(function(a, b) {
+      itemsResponse.sort(function (a, b) {
         if (a.id > b.id) {
           return 1;
         } else {
@@ -38,7 +38,7 @@ exports.findHandler = async (event, context) => {
     const todoId = parseInt(event.pathParameters.todo_id)
     return model.getData(todoId).then(function (res) {
       // 空の場合
-      if(Object.keys(res).length <= 0) {
+      if (Object.keys(res).length <= 0) {
         return notFoundResponse()
       }
 
@@ -58,7 +58,7 @@ exports.createHandler = async (event, context) => {
 
   try {
     let request = JSON.parse(event.body)
-    return model.putData(JSON.parse(event.body)).then(function (res) {
+    return model.putData(request).then(function (res) {
       return {
         "statusCode": 201,
         "body": JSON.stringify({})
@@ -79,26 +79,29 @@ exports.updateHandler = async (event, context) => {
     const todoId = parseInt(event.pathParameters.todo_id)
     let request = JSON.parse(event.body)
 
-    if(!request.title || !request.content) {
+    if (!request.title || !request.content) {
       return {
         "statusCode": 400,
         "body": JSON.stringify({ message: 'Bad request' })
       }
     }
 
-
+    // IDが存在しなければ新規作成を行う
     if (Object.keys(await model.getData(todoId)).length === 0) {
-      return {
-        "statusCode": 404,
-        "body": JSON.stringify({ message: 'Not found' })
-      }
+      return model.putData(JSON.parse(event.body)).then(function (res) {
+        return {
+          "statusCode": 201,
+          "body": JSON.stringify({})
+        }
+      });
+    } else {
+      return model.updateData(todoId, JSON.parse(event.body)).then(function (res) {
+        return {
+          "statusCode": 200,
+          "body": JSON.stringify(res.Attributes)
+        }
+      });
     }
-    return model.updateData(todoId, JSON.parse(event.body)).then(function (res) {
-      return {
-        "statusCode": 200,
-        "body": JSON.stringify(res.Attributes)
-      }
-    });
   } catch (err) {
     console.error(err)
     console.error(err.message)
@@ -146,7 +149,7 @@ function formatResponse(item) {
 function notFoundResponse() {
   return {
     "statusCode": 404,
-  "body": JSON.stringify({message: 'todo not found'})
+    "body": JSON.stringify({ message: 'todo not found' })
   }
 }
 

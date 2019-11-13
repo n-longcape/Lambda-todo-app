@@ -11,7 +11,7 @@ describe('Test Update', function () {
         dynamoStub.create()
     })
 
-    it('Update successful response', async () => {
+    it('Update successful', async () => {
         const todoId = 1
         var event = {
              body: JSON.stringify({title: 'Test Code Title', content: 'Test Content' }),
@@ -48,22 +48,18 @@ describe('Test Update', function () {
         expect(response.message).to.be.equal('Bad request')
     })
 
-    it('todo not found', async () => {
-        const todoId = 2
-        var event = {
-             body: JSON.stringify({title: 'Test Code Title', content: 'Test Content' }),
-             pathParameters: {todo_id: todoId} 
-            }
-        const result = await app.updateHandler(event, context)
+    it('create when id not found', async () => {
+        var event = { body: JSON.stringify({ id: 2, title: 'Test Code Title', content: 'Test Content' }) }
+        const result = await app.createHandler(event, context)
 
         expect(result).to.be.an('object');
-        expect(result.statusCode).to.equal(404)
+        expect(result.statusCode).to.equal(201)
         expect(result.body).to.be.an('string')
 
         let response = JSON.parse(result.body)
 
         expect(response).to.be.an('object')
-        expect(response.message).to.be.equal('Not found')
+        expect(Object.keys(response).length).to.be.equal(0)
     })
 
 })
