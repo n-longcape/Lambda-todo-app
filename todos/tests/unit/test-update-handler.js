@@ -1,6 +1,6 @@
 'use strict';
 
-const app = require('../../handlers/update.js')
+const app = require('../../app.js')
 const chai = require('chai')
 const dynamoStub = require("../libs/dynamo-stub")
 const expect = chai.expect;
@@ -17,7 +17,7 @@ describe('Test Update', function () {
              body: JSON.stringify({title: 'Test Code Title', content: 'Test Content' }),
              pathParameters: {todo_id: todoId} 
             }
-        const result = await app.lambdaHandler(event, context)
+        const result = await app.updateHandler(event, context)
         
 
         expect(result).to.be.an('object');
@@ -36,7 +36,7 @@ describe('Test Update', function () {
              body: JSON.stringify({content: 'Test Content'}),
              pathParameters: {todo_id: todoId} 
             }
-        const result = await app.lambdaHandler(event, context)
+        const result = await app.updateHandler(event, context)
 
         expect(result).to.be.an('object');
         expect(result.statusCode).to.equal(400)
@@ -54,7 +54,7 @@ describe('Test Update', function () {
              body: JSON.stringify({title: 'Test Code Title', content: 'Test Content' }),
              pathParameters: {todo_id: todoId} 
             }
-        const result = await app.lambdaHandler(event, context)
+        const result = await app.updateHandler(event, context)
 
         expect(result).to.be.an('object');
         expect(result.statusCode).to.equal(404)

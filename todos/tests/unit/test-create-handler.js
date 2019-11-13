@@ -1,6 +1,6 @@
 'use strict';
 
-const app = require('../../handlers/create.js')
+const app = require('../../app.js')
 const chai = require('chai')
 const dynamoStub = require("../libs/dynamo-stub")
 const expect = chai.expect;
@@ -13,7 +13,7 @@ describe('Test Create', function () {
 
     it('create successful response', async () => {
         var event = { body: JSON.stringify({ id: 2, title: 'Test Code Title', content: 'Test Content' }) }
-        const result = await app.lambdaHandler(event, context)
+        const result = await app.createHandler(event, context)
 
         expect(result).to.be.an('object');
         expect(result.statusCode).to.equal(201)
