@@ -33,8 +33,7 @@ module.exports = class Todo {
         } else {
             params.Select = 'ALL_ATTRIBUTES'
         }
-
-        return this.docClient.scan(params).promise()
+        return this.docClient.scan(params).promise() 
     }
 
     getData(todoId) {
@@ -51,14 +50,13 @@ module.exports = class Todo {
         let sequence = await util.getNextId(this.table);
         let nextId = sequence.Attributes.current_number
         const date = new Date()
-        const microSecondTime = date.getTime()
         const params = {
             TableName: this.table,
             Item: {
                 'id': nextId,
                 'title': todo.title,
                 'content': todo.content,
-                'created_timestamp': Math.floor(microSecondTime / 1000)
+                'created_at': date.toISOString().replace(/\.[0-9]{3}/, '') //小数点切り捨て
             },
         }
         return this.docClient.put(params).promise();

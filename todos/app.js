@@ -15,6 +15,7 @@ exports.getAllHandler = async (event, context) => {
       for (key in res.Items) {
         itemsResponse.push(formatResponse(res.Items[key]))
       }
+      console.log(itemsResponse)
       itemsResponse.sort(function (a, b) {
         if (a.id > b.id) {
           return 1;
@@ -154,7 +155,8 @@ function formatResponse(item) {
   return {
     'id': item.id,
     'title': item.title,
-    'content': item.content
+    'content': item.content,
+    'created_at': item.created_at
   }
 }
 
