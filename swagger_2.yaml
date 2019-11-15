@@ -1,0 +1,188 @@
+swagger: '2.0'
+info:
+  description: TodoアプリのAPI仕様書
+  title: Todo Rest API
+  version: 1.0.0
+paths:
+  /todos:
+    get:
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: A JSON array of Todo model
+          schema:
+            items:
+              $ref: '#/definitions/Todo'
+            type: array
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/InternalServerErrorResponse'
+      tags:
+        - todos
+      description: Returns an array of Todo model
+      summary: Get all todos.
+    post:
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - description: user to create
+          in: body
+          name: body
+          schema:
+            $ref: '#/definitions/TodoRequest'
+      responses:
+        '201':
+          description: CREATED
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/InternalServerErrorResponse'
+      tags:
+        - todos
+      description: Create a new todo
+      summary: 新しいタスクを作成
+  '/todos/{todoId}':
+    delete:
+      produces:
+        - application/json
+      parameters:
+        - description: Todo id
+          in: path
+          name: todoId
+          required: true
+          type: integer
+      responses:
+        '204':
+          description: Successfully deleted
+        '404':
+          description: Not found
+          schema:
+            $ref: '#/definitions/NotFoundResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/InternalServerErrorResponse'
+      tags:
+        - todos
+      description: Returns a updated Todo model
+      summary: Todoの削除.
+    get:
+      produces:
+        - application/json
+      parameters:
+        - description: Todo id
+          in: path
+          name: todoId
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: A single Todo model
+          schema:
+            $ref: '#/definitions/Todo'
+        '404':
+          description: Not found
+          schema:
+            $ref: '#/definitions/NotFoundResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/InternalServerErrorResponse'
+      tags:
+        - todos
+      description: Returns a Todo model
+      summary: TodoのIDの単体取得.
+    put:
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - description: Todo id
+          in: path
+          name: todoId
+          required: true
+          type: integer
+        - description: user to create
+          in: body
+          name: body
+          schema:
+            $ref: '#/definitions/TodoRequest'
+      responses:
+        '200':
+          description: Successfully updated
+          schema:
+            $ref: '#/definitions/Todo'
+        '201':
+          description: Successfully created
+        '404':
+          description: Not found
+          schema:
+            $ref: '#/definitions/NotFoundResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/InternalServerErrorResponse'
+      tags:
+        - todos
+      description: Returns a updated Todo model
+      summary: Todoの更新.
+definitions:
+  InternalServerErrorResponse:
+    example:
+      message: internal server error
+    properties:
+      message:
+        type: string
+    required:
+      - message
+    type: object
+  NotFoundResponse:
+    example:
+      message: todo not found
+    properties:
+      message:
+        type: string
+    required:
+      - message
+    type: object
+  Todo:
+    example:
+      content: Air Pods Proを買いに行く
+      created_at: "2019-11-14T15:04:25Z"
+      id: 1
+      title: 買い物
+    properties:
+      content:
+        type: string
+      created_timestamp:
+        format: int64
+        type: integer
+      id:
+        format: int64
+        type: integer
+      title:
+        type: string
+    required:
+      - id
+      - title
+      - content
+    type: object
+  TodoRequest:
+    example:
+      content: APIGatewayを使ったRESTAPIの作成。
+      title: Lambdaについて学ぶ
+    properties:
+      content:
+        type: string
+      title:
+        type: string
+    required:
+      - title
+      - content
+    type: object
